@@ -46,8 +46,7 @@ CREATE TABLE IF NOT EXISTS chats (
     room TEXT NOT NULL CHECK(room IN ('table', 'global')),
     message TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (round_id) REFERENCES rounds(id)
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 -- Admin Settings Table
@@ -58,27 +57,10 @@ CREATE TABLE IF NOT EXISTS admin_settings (
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- Indexes for better performance
+-- Create Indexes
 CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
 CREATE INDEX IF NOT EXISTS idx_bets_user_id ON bets(user_id);
 CREATE INDEX IF NOT EXISTS idx_bets_round_id ON bets(round_id);
 CREATE INDEX IF NOT EXISTS idx_chats_user_id ON chats(user_id);
 CREATE INDEX IF NOT EXISTS idx_chats_room ON chats(room);
 CREATE INDEX IF NOT EXISTS idx_rounds_round_number ON rounds(round_number);
-
--- Insert default admin settings
-INSERT OR IGNORE INTO admin_settings (setting_key, setting_value) 
-VALUES ('winrate_percentage', '48');
-
-INSERT OR IGNORE INTO admin_settings (setting_key, setting_value) 
-VALUES ('maintenance_mode', '0');
-
--- Insert default admin user (password: admin123)
-INSERT OR IGNORE INTO users (username, password_hash, coins, is_admin, avatar) 
-VALUES (
-    'admin', 
-    '$2a$10$YourHashedPasswordHere',
-    999999999,
-    1,
-    'https://api.dicebear.com/7.x/avataaars/svg?seed=admin'
-);
