@@ -7,8 +7,8 @@ import { useAuth } from './hooks/useAuth';
 // Pages
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
-import GamePage from './pages/GamePage';
-import AdminPage from './pages/AdminPage';
+import GamePage from './pages/GamePage.jsx';
+import AdminPage from './pages/AdminPage.jsx';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
