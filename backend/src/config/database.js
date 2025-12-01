@@ -61,9 +61,16 @@ const allAsync = (sql, params = []) => {
     });
 };
 
+// ✅ Bổ sung đúng function bạn cần, không thay đổi cấu trúc
+function initializeDatabase() {
+    console.log("🔥 initializeDatabase chạy rồi nè ✅");
+    return db;
+}
+
 module.exports = {
     db,
     runAsync,
     getAsync,
-    allAsync
+    allAsync,
+    initializeDatabase // 👈 Chỉ thêm chỗ này, còn lại giữ nguyên
 };
