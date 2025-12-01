@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-import { GameProvider } from './context/GameContext';
-import { useAuth } from './hooks/useAuth';
+import { AuthProvider } from './context/AuthContext.jsx';
+import { GameProvider } from './context/GameContext.jsx';
+import { useAuth } from './hooks/useAuth.jsx';
 
 // Pages
 import Login from './components/Auth/Login';
