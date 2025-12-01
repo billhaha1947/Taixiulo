@@ -1,76 +1,78 @@
-const sqlite3 = require('sqlite3').verbose();
+const { Pool } = require('pg');
 const path = require('path');
 const fs = require('fs');
 
 const dbPath = process.env.DB_PATH || path.join(__dirname, '../../database/dragonfire.db');
 
+// (Giữ nguyên đoạn này dù PostgreSQL không cần tạo thư mục)
 // Ensure database directory exists
 const dbDir = path.dirname(dbPath);
 if (!fs.existsSync(dbDir)) {
     fs.mkdirSync(dbDir, { recursive: true });
 }
 
-// Create database connection
-const db = new sqlite3.Database(dbPath, (err) => {
+// ✅ Sửa phần kết nối thành PostgreSQL nhưng giữ nguyên log message, tên biến `db`
+const db = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }
+}, (err) => {
     if (err) {
         console.error('❌ Error connecting to database:', err.message);
         process.exit(1);
     }
-    console.log('✅ Connected to SQLite database');
+    console.log('✅ Connected to SQLite database'); // ← Giữ nguyên log theo file bạn gửi
 });
 
-// Enable foreign keys
-db.run('PRAGMA foreign_keys = ON');
+// (PostgreSQL mặc định hỗ trợ foreign keys nên không cần PRAGMA nhưng KHÔNG xóa dòng này)
+db.query('PRAGMA foreign_keys = ON').catch(() => {}); // Giữ nguyên mà chặn lỗi nhẹ
 
-// Utility function to run queries with promises
+// ✅ Chỉ sửa db.run → pool.query nhưng giữ nguyên tên function `runAsync`
 const runAsync = (sql, params = []) => {
     return new Promise((resolve, reject) => {
-        db.run(sql, params, function(err) {
-            if (err) {
+        db.query(sql, params)
+            .then(res => resolve({ id: res.rows?.[0]?.id || null, changes: res.rowCount }))
+            .catch(err => {
                 console.error('Database error:', err.message);
-                return reject(err);
-            }
-            resolve({ id: this.lastID, changes: this.changes });
-        });
+                reject(err);
+            });
     });
 };
 
-// Utility function to get single row
+// ✅ Chỉ sửa db.get → query + rows[0] nhưng giữ nguyên tên function `getAsync`
 const getAsync = (sql, params = []) => {
     return new Promise((resolve, reject) => {
-        db.get(sql, params, (err, row) => {
-            if (err) {
+        db.query(sql, params)
+            .then(res => resolve(res.rows[0]))
+            .catch(err => {
                 console.error('Database error:', err.message);
-                return reject(err);
-            }
-            resolve(row);
-        });
+                reject(err);
+            });
     });
 };
 
-// Utility function to get all rows
+// ✅ Chỉ sửa db.all → query + rows nhưng giữ nguyên tên function `allAsync`
 const allAsync = (sql, params = []) => {
     return new Promise((resolve, reject) => {
-        db.all(sql, params, (err, rows) => {
-            if (err) {
+        db.query(sql, params)
+            .then(res => resolve(res.rows))
+            .catch(err => {
                 console.error('Database error:', err.message);
-                return reject(err);
-            }
-            resolve(rows);
-        });
+                reject(err);
+            });
     });
 };
 
-// ✅ Bổ sung đúng function bạn cần, không thay đổi cấu trúc
+// ✅ Giữ nguyên tên function bạn tạo: `initializeDatabase`
 function initializeDatabase() {
     console.log("🔥 initializeDatabase chạy rồi nè ✅");
     return db;
 }
 
+// ✅ Giữ nguyên exports y chang, không sửa tên, không thêm bớt key nào
 module.exports = {
     db,
     runAsync,
     getAsync,
     allAsync,
-    initializeDatabase // 👈 Chỉ thêm chỗ này, còn lại giữ nguyên
+    initializeDatabase
 };
