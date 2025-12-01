@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext.jsx';
 import { GameProvider } from './context/GameContext.jsx';
-import { useAuth } from './hooks/useAuth.jsx';
+import { useAuth } from './hooks/useAuth.js';
 
 // Pages
 import Login from './components/Auth/Login';
