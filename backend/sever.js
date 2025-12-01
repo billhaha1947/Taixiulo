@@ -1,10 +1,10 @@
 require('dotenv').config();
-const app = require('../src/app');
-const { initializeDatabase } = require('../src/config/database');
+const app = require('./src/app');
+const { initializeDatabase } = require('./src/config/database');
 const { initializeSocketIO, setGameEngine: setSocketGameEngine } = require('./src/socket/socketHandler');
 const GameEngine = require('./src/services/gameEngine');
-const { setGameEngine: setGameControllerEngine } = require('../src/controllers/gameController');
-const { setGameEngine: setAdminControllerEngine } = require('../src/controllers/adminController');
+const { setGameEngine: setGameControllerEngine } = require('./src/controllers/gameController');
+const { setGameEngine: setAdminControllerEngine } = require('./src/controllers/adminController');
 
 const PORT = process.env.PORT || 5000;
 
