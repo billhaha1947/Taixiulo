@@ -5,10 +5,10 @@ import { GameProvider } from './context/GameContext.jsx';
 import { useAuth } from './hooks/useAuth.js';
 
 // Pages
-import Login from './components/Auth/Login';
-import Register from './components/Auth/Register';
-import GamePage from './pages/GamePage';
-import AdminPage from './pages/AdminPage';
+import Login from './components/Auth/Login.jsx';
+import Register from './components/Auth/Register.jsx';
+import GamePage from './pages/GamePage.jsx';
+import AdminPage from './pages/AdminPage.jsx';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
