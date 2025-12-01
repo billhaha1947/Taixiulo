@@ -9,6 +9,7 @@ import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import GamePage from './pages/GamePage';
 import AdminPage from './pages/AdminPage';
+import LogoutPage from "./pages/LogoutPage";
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -51,7 +52,7 @@ const AppRoutes = () => {
           </ProtectedRoute>
         }
       />
-
+      <Route path="/logout" element={<LogoutPage />} />
       <Route path="/" element={<Navigate to="/game" />} />
       <Route path="*" element={<Navigate to="/login" />} />
     </Routes>
