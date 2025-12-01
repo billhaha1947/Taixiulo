@@ -1,14 +1,14 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext.jsx';
-import { GameProvider } from './context/GameContext.jsx';
-import { useAuth } from './hooks/useAuth.js';
+import { AuthProvider } from './src/context/AuthContext.jsx';
+import { GameProvider } from './src/context/GameContext.jsx';
+import { useAuth } from './src/hooks/useAuth.js';
 
 // Pages
-import Login from './components/Auth/Login.jsx';
-import Register from './components/Auth/Register.jsx';
-import GamePage from './pages/GamePage.jsx';
-import AdminPage from './pages/AdminPage.jsx';
+import Login from './src/components/Auth/Login.jsx';
+import Register from './src/components/Auth/Register.jsx';
+import GamePage from './src/pages/GamePage.jsx';
+import AdminPage from './src/pages/AdminPage.jsx';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
